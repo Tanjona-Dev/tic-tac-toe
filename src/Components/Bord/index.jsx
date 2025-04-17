@@ -14,19 +14,26 @@ function Board() {
   const [isNext, setIsNext] = useState(true);
 
   function handleClick(i) {
-    if (squares[i]) {
+    if (squares[i] || CalculateWinner(squares)) {
       return;
     }
     const nextSquares = [...squares];
     isNext ? (nextSquares[i] = "X") : (nextSquares[i] = "O");
     setSquares(nextSquares);
     setIsNext(!isNext);
-    console.log(nextSquares)
+  }
+  const winner = CalculateWinner(squares);
+  let statu;
+  if (winner) {
+    statu = winner + " a gagné";
+  } else {
+    statu = "Prochain tour: " + (isNext ? "X" : "O");
   }
   return (
     <div>
       <div>
         <h1>Tic Tac Toe</h1>
+        <div>{statu}</div>
       </div>
       <div className="container">
         <div className="btnColumn">
@@ -50,3 +57,24 @@ function Board() {
 }
 
 export default Board;
+
+function CalculateWinner(squares) {
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      console.log("vrai");
+      return squares[a];
+    }
+  }
+  return null;
+}

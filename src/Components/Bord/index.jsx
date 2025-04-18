@@ -9,18 +9,14 @@ function Square({ value, onSquareClick }) {
   );
 }
 
-function Board() {
-  const [squares, setSquares] = useState(Array(9).fill(null));
-  const [isNext, setIsNext] = useState(true);
-
+function Board({ onPlay, squares, isNext }) {
   function handleClick(i) {
     if (squares[i] || CalculateWinner(squares)) {
       return;
     }
     const nextSquares = [...squares];
     isNext ? (nextSquares[i] = "X") : (nextSquares[i] = "O");
-    setSquares(nextSquares);
-    setIsNext(!isNext);
+    onPlay(nextSquares);
   }
   const winner = CalculateWinner(squares);
   let statu;
@@ -32,7 +28,6 @@ function Board() {
   return (
     <div>
       <div>
-        <h1>Tic Tac Toe</h1>
         <div>{statu}</div>
       </div>
       <div className="container">
@@ -56,7 +51,51 @@ function Board() {
   );
 }
 
-export default Board;
+function Game() {
+  const [isNext, setIsNext] = useState(true);
+  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const currentSquares = history[history.length - 1];
+
+  function handleChange(props) {
+    setHistory([...history, props]);
+    setIsNext(!isNext);
+  }
+
+  const teste = history.map((hist, index) => {
+    let description;
+    if (index > 0) {
+      description = "Aller au coup #" + index;
+    } else {
+      description = "Revenir au debut";
+    }
+    return (
+      <li key={hist}>
+        <button>{description}</button>
+      </li>
+    );
+  });
+
+  return (
+    <div>
+      <div>
+        <h1>Tic Tac Toe</h1>
+      </div>
+      <div>
+        <div>
+          <Board
+            onPlay={handleChange}
+            squares={currentSquares}
+            isNext={isNext}
+          />
+        </div>
+        <div>
+          <ol>{teste}</ol>
+        </div>
+      </div>
+    </div>
+  );
+}
+export default Game;
 
 function CalculateWinner(squares) {
   const lines = [
@@ -72,7 +111,6 @@ function CalculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      console.log("vrai");
       return squares[a];
     }
   }

@@ -121,4 +121,6 @@ const Container = styled.div`
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
-`
+  justify-content: center;
+  align-items: center;
+`;

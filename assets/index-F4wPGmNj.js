@@ -51,4 +51,6 @@ Error generating stack: `+u.message+`
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 `;function Gv(){return st.jsx(st.Fragment,{children:st.jsx(Bv,{})})}xy.createRoot(document.getElementById("root")).render(st.jsx(Ga.StrictMode,{children:st.jsx(Gv,{})}));

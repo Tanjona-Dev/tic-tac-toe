@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../../Style/style.css";
+import styled from "styled-components";
 
 function Square({ value, onSquareClick }) {
   return (
@@ -80,7 +81,7 @@ function Game() {
       <div>
         <h1>Tic Tac Toe</h1>
       </div>
-      <div>
+      <Container>
         <div>
           <Board
             onPlay={handleChange}
@@ -91,7 +92,7 @@ function Game() {
         <div>
           <ol>{teste}</ol>
         </div>
-      </div>
+      </Container>
     </div>
   );
 }
@@ -116,3 +117,8 @@ function CalculateWinner(squares) {
   }
   return null;
 }
+const Container = styled.div`
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+`
